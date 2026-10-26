@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Personal AI Work Assistant - Chat with your documents using local AI."
+    >
+
+    <meta
+        name="theme-color"
+        content="#080b14"
+    >
+
+    <title>
+        Personal AI — Work Assistant
+    </title>
+
+
+    <!-- =====================================================
+         CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     APPLICATION
+========================================================== -->
+
+<div class="app-shell">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+
+        <!-- =================================================
+             BRAND
+        ================================================== -->
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                ✦
+            </div>
+
+            <div class="brand-copy">
+
+                <div class="brand-name">
+                    Personal AI
+                </div>
+
+                <div class="brand-tagline">
+                    Work Assistant
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             NEW CONVERSATION
+        ================================================== -->
+
+        <div class="sidebar-top-action">
+
+            <button
+                id="newChatButton"
+                class="new-chat-button"
+                type="button"
+            >
+
+                <span class="button-icon">
+                    +
+                </span>
+
+                <span>
+                    New conversation
+                </span>
+
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             NAVIGATION
+        ================================================== -->
+
+        <nav class="sidebar-navigation">
+
+            <div class="navigation-label">
+                WORKSPACE
+            </div>
+
+
+            <button
+                class="navigation-item active"
+                type="button"
+            >
+
+                <span class="navigation-icon">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    >
+
+                        <path
+                            d="M4 5.5A2.5 2.5 0 0 1 6.5 3H17a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"
+                        />
+
+                        <path
+                            d="M8 8h8"
+                        />
+
+                        <path
+                            d="M8 12h8"
+                        />
+
+                        <path
+                            d="M8 16h5"
+                        />
+
+                    </svg>
+
+                </span>
+
+                <span>
+                    Assistant
+                </span>
+
+            </button>
+
+        </nav>
+
+
+        <!-- =================================================
+             DOCUMENTS
+        ================================================== -->
+
+        <section class="documents-panel">
+
+
+            <!-- Section heading -->
+
+            <div class="section-heading">
+
+                <span>
+                    DOCUMENTS
+                </span>
+
+                <span
+                    id="documentCount"
+                    class="document-count"
+                >
+                    0
+                </span>
+
+            </div>
+
+
+            <!-- =================================================
+                 DOCUMENT LIST
+            ================================================== -->
+
+            <div
+                id="sidebarDocumentList"
+                class="document-list"
+            >
+
+                <div class="empty-documents">
+
+                    <div class="empty-document-icon">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                        >
+
+                            <path
+                                d="M7 3h7l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"
+                            />
+
+                            <path
+                                d="M14 3v5h5"
+                            />
+
+                            <path
+                                d="M8.5 13h7"
+                            />
+
+                            <path
+                                d="M8.5 16h5"
+                            />
+
+                        </svg>
+
+                    </div>
+
+                    <div class="empty-document-title">
+                        No documents
+                    </div>
+
+                    <div class="empty-document-text">
+                        Upload files to build your
+                        knowledge base.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ADD DOCUMENTS
+            ================================================== -->
+
+            <button
+                id="sidebarUploadButton"
+                class="upload-sidebar-button"
+                type="button"
+            >
+
+                <span class="upload-button-icon">
+                    +
+                </span>
+
+                <span>
+                    Add documents
+                </span>
+
+            </button>
+
+
+            <!-- =================================================
+                 DELETE ALL
+            ================================================== -->
+
+            <button
+                id="deleteAllButton"
+                class="delete-all-button"
+                type="button"
+                style="display: none;"
+            >
+
+                <span>
+                    🗑
+                </span>
+
+                <span>
+                    Delete all documents
+                </span>
+
+            </button>
+
+        </section>
+
+
+        <!-- =================================================
+             SIDEBAR BOTTOM
+        ================================================== -->
+
+        <div class="sidebar-bottom">
+
+
+            <!-- =================================================
+                 STORAGE
+            ================================================== -->
+
+            <div class="storage-card">
+
+                <div class="storage-card-top">
+
+                    <div class="storage-title">
+
+                        <span
+                            class="storage-status-dot"
+                        ></span>
+
+                        Local storage
+
+                    </div>
+
+
+                    <span
+                        id="storageCount"
+                        class="storage-count"
+                    >
+                        0
+                    </span>
+
+                </div>
+
+
+                <div class="storage-track">
+
+                    <div
+                        id="storageProgress"
+                        class="storage-fill"
+                    ></div>
+
+                </div>
+
+
+                <div class="storage-caption">
+
+                    Documents stored locally
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 AI STATUS
+            ================================================== -->
+
+            <div class="ai-status-card">
+
+                <div class="ai-status-icon">
+                    ✦
+                </div>
+
+
+                <div class="ai-status-content">
+
+                    <div class="ai-status-title">
+                        Local AI
+                    </div>
+
+                    <div class="ai-status-text">
+
+                        <span class="online-dot"></span>
+
+                        Ollama ready
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="topbar">
+
+
+            <div class="topbar-left">
+
+
+                <!-- Mobile menu -->
+
+                <button
+                    id="mobileMenu"
+                    class="mobile-menu-button"
+                    type="button"
+                    aria-label="Open menu"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+
+                        <path
+                            d="M4 6h16"
+                        />
+
+                        <path
+                            d="M4 12h16"
+                        />
+
+                        <path
+                            d="M4 18h16"
+                        />
+
+                    </svg>
+
+                </button>
+
+
+                <!-- Page title -->
+
+                <div class="page-context">
+
+                    <div class="page-context-title">
+                        Assistant
+                    </div>
+
+                    <div class="page-context-subtitle">
+                        Your private AI workspace
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Topbar right -->
+
+            <div class="topbar-right">
+
+
+                <div class="connection-status">
+
+                    <span class="connection-dot"></span>
+
+                    Local AI
+
+                </div>
+
+
+                <div class="topbar-divider"></div>
+
+
+                <div class="profile-badge">
+                    T
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =================================================
+             CHAT AREA
+        ================================================== -->
+
+        <section
+            id="chatMessages"
+            class="chat-area"
+        >
+
+
+            <!-- =================================================
+                 WELCOME SCREEN
+            ================================================== -->
+
+            <div
+                id="welcomeScreen"
+                class="welcome-screen"
+            >
+
+
+                <!-- Badge -->
+
+                <div class="welcome-badge">
+
+                    <span class="welcome-spark">
+                        ✦
+                    </span>
+
+                    Personal AI
+
+                </div>
+
+
+                <!-- Heading -->
+
+                <h1>
+
+                    Your documents.
+                    <br>
+
+                    <span>
+                        Your knowledge.
+                    </span>
+
+                </h1>
+
+
+                <!-- Description -->
+
+                <p class="welcome-description">
+
+                    Upload your documents and ask questions
+                    in natural language. Your local AI retrieves
+                    relevant information and provides answers
+                    with source references.
+
+                </p>
+
+
+                <!-- =================================================
+                     QUICK ACTIONS
+                ================================================== -->
+
+                <div class="quick-actions">
+
+
+                    <!-- Summarize -->
+
+                    <button
+                        class="suggestion-card"
+                        type="button"
+                        data-question="Summarize the main points from my documents."
+                    >
+
+                        <div class="suggestion-card-icon">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.7"
+                            >
+
+                                <path
+                                    d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"
+                                />
+
+                                <path
+                                    d="M8 8h8"
+                                />
+
+                                <path
+                                    d="M8 12h8"
+                                />
+
+                                <path
+                                    d="M8 16h5"
+                                />
+
+                            </svg>
+
+                        </div>
+
+
+                        <div class="suggestion-card-content">
+
+                            <span class="suggestion-card-title">
+                                Summarize
+                            </span>
+
+                            <span class="suggestion-card-description">
+                                Get the key points from
+                                your documents.
+                            </span>
+
+                        </div>
+
+
+                        <span class="suggestion-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+
+                    <!-- Concepts -->
+
+                    <button
+                        class="suggestion-card"
+                        type="button"
+                        data-question="What are the most important concepts in my documents?"
+                    >
+
+                        <div class="suggestion-card-icon">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.7"
+                            >
+
+                                <path
+                                    d="M9 18h6"
+                                />
+
+                                <path
+                                    d="M10 22h4"
+                                />
+
+                                <path
+                                    d="M8.5 14.5A6 6 0 1 1 15.5 14c-.9.7-1.5 1.7-1.5 3H10c0-1.3-.6-2.3-1.5-3Z"
+                                />
+
+                            </svg>
+
+                        </div>
+
+
+                        <div class="suggestion-card-content">
+
+                            <span class="suggestion-card-title">
+                                Explore concepts
+                            </span>
+
+                            <span class="suggestion-card-description">
+                                Discover important ideas
+                                and topics.
+                            </span>
+
+                        </div>
+
+
+                        <span class="suggestion-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+
+                    <!-- Compare -->
+
+                    <button
+                        class="suggestion-card"
+                        type="button"
+                        data-question="Compare the information available in my documents."
+                    >
+
+                        <div class="suggestion-card-icon">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.7"
+                            >
+
+                                <path
+                                    d="M8 4v16"
+                                />
+
+                                <path
+                                    d="M16 4v16"
+                                />
+
+                                <path
+                                    d="M4 8h4"
+                                />
+
+                                <path
+                                    d="M4 16h4"
+                                />
+
+                                <path
+                                    d="M16 8h4"
+                                />
+
+                                <path
+                                    d="M16 16h4"
+                                />
+
+                            </svg>
+
+                        </div>
+
+
+                        <div class="suggestion-card-content">
+
+                            <span class="suggestion-card-title">
+                                Compare
+                            </span>
+
+                            <span class="suggestion-card-description">
+                                Compare information
+                                across documents.
+                            </span>
+
+                        </div>
+
+
+                        <span class="suggestion-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+
+                    <!-- Search -->
+
+                    <button
+                        class="suggestion-card"
+                        type="button"
+                        data-question="What information in my documents is relevant to my question?"
+                    >
+
+                        <div class="suggestion-card-icon">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.7"
+                            >
+
+                                <circle
+                                    cx="11"
+                                    cy="11"
+                                    r="6.5"
+                                />
+
+                                <path
+                                    d="m16 16 4 4"
+                                />
+
+                            </svg>
+
+                        </div>
+
+
+                        <div class="suggestion-card-content">
+
+                            <span class="suggestion-card-title">
+                                Search knowledge
+                            </span>
+
+                            <span class="suggestion-card-description">
+                                Find relevant information
+                                from your files.
+                            </span>
+
+                        </div>
+
+
+                        <span class="suggestion-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+                <!-- Privacy -->
+
+                <div class="privacy-notice">
+
+                    <span class="privacy-icon">
+                        🔒
+                    </span>
+
+                    <span>
+                        Your documents are processed
+                        locally on your machine.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             CHAT COMPOSER
+        ================================================== -->
+
+        <div class="composer-wrapper">
+
+
+            <div class="composer">
+
+
+                <!-- Attachment -->
+
+                <button
+                    id="attachButton"
+                    class="composer-icon-button"
+                    type="button"
+                    title="Upload documents"
+                    aria-label="Upload documents"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    >
+
+                        <path
+                            d="m21.4 11.6-8.8 8.8a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7L9.8 17.6a2 2 0 0 1-2.8-2.8l8.3-8.3"
+                        />
+
+                    </svg>
+
+                </button>
+
+
+                <!-- Question -->
+
+                <textarea
+                    id="questionInput"
+                    class="question-input"
+                    rows="1"
+                    placeholder="Ask anything about your documents..."
+                    aria-label="Ask a question"
+                ></textarea>
+
+
+                <!-- Send -->
+
+                <button
+                    id="askButton"
+                    class="send-button"
+                    type="button"
+                    title="Send"
+                    aria-label="Send message"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+
+                        <path
+                            d="M5 12h13"
+                        />
+
+                        <path
+                            d="m13 6 6 6-6 6"
+                        />
+
+                    </svg>
+
+                </button>
+
+            </div>
+
+
+            <div class="composer-disclaimer">
+
+                Personal AI can make mistakes.
+                Verify important information against
+                your source documents.
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+
+<!-- =========================================================
+     UPLOAD MODAL
+========================================================== -->
+
+<div
+    id="uploadModal"
+    class="modal-overlay"
+>
+
+
+    <div
+        class="upload-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="uploadModalTitle"
+    >
+
+
+        <!-- =================================================
+             MODAL HEADER
+        ================================================== -->
+
+        <div class="modal-header">
+
+
+            <div class="modal-heading">
+
+
+                <div class="modal-icon">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                    >
+
+                        <path
+                            d="M12 16V4"
+                        />
+
+                        <path
+                            d="m7 9 5-5 5 5"
+                        />
+
+                        <path
+                            d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"
+                        />
+
+                    </svg>
+
+                </div>
+
+
+                <div>
+
+                    <h2 id="uploadModalTitle">
+                        Add documents
+                    </h2>
+
+                    <p>
+                        Add files to your local
+                        knowledge base.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="closeModal"
+                class="modal-close"
+                type="button"
+                aria-label="Close upload dialog"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+
+        <!-- =================================================
+             DROP ZONE
+        ================================================== -->
+
+        <div
+            id="dropZone"
+            class="drop-zone"
+        >
+
+
+            <div class="drop-zone-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                >
+
+                    <path
+                        d="M12 16V5"
+                    />
+
+                    <path
+                        d="m7 10 5-5 5 5"
+                    />
+
+                    <path
+                        d="M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3"
+                    />
+
+                </svg>
+
+            </div>
+
+
+            <div class="drop-zone-title">
+                Drop your files here
+            </div>
+
+
+            <div class="drop-zone-subtitle">
+                or click to browse your computer
+            </div>
+
+
+            <div class="supported-formats">
+
+                PDF
+
+                <span>•</span>
+
+                DOCX
+
+                <span>•</span>
+
+                TXT
+
+                <span>•</span>
+
+                CSV
+
+                <span>•</span>
+
+                XLSX
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             FILE INPUT
+        ================================================== -->
+
+        <input
+            id="fileInput"
+            type="file"
+            multiple
+            accept=".pdf,.docx,.txt,.csv,.xlsx"
+            hidden
+        >
+
+
+        <!-- =================================================
+             SELECTED FILES
+        ================================================== -->
+
+        <div
+            id="selectedFiles"
+            class="selected-files"
+        ></div>
+
+
+        <!-- =================================================
+             STATUS
+        ================================================== -->
+
+        <div
+            id="uploadStatus"
+            class="upload-status"
+        ></div>
+
+
+        <!-- =================================================
+             MODAL FOOTER
+        ================================================== -->
+
+        <div class="modal-footer">
+
+
+            <button
+                class="modal-cancel-button"
+                type="button"
+                onclick="closeUploadModal()"
+            >
+
+                Cancel
+
+            </button>
+
+
+            <button
+                id="uploadButton"
+                class="modal-upload-button"
+                type="button"
+            >
+
+                <span>
+                    Upload & process
+                </span>
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+
+                    <path
+                        d="M5 12h13"
+                    />
+
+                    <path
+                        d="m13 6 6 6-6 6"
+                    />
+
+                </svg>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================== -->
+
+<script
+    src="{{ url_for('static', filename='js/app.js') }}"
+></script>
+
+
+</body>
+
+</html>
